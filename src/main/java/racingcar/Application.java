@@ -34,6 +34,15 @@ public class Application {
         /*
         경주 게임 로직
          */
+        for (int i = 0; i < count; i++) {
+            for (int j = 0; j < cars.size(); j++) {
+                cars.get(j).move();
+            }
+        }
+
+        /*
+        실행 결과 & 최종 우승자 출력
+         */
 
     }
 }
