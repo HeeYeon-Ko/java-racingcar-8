@@ -12,6 +12,7 @@ camp.nextstep.edu.missionutils에서 제공하는 Randoms 및 Console API 활용
 
 
 import camp.nextstep.edu.missionutils.Console;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Application {
@@ -19,7 +20,13 @@ public class Application {
         // TODO: 프로그램 구현
         System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
         String input = Console.readLine();
-        List<String> cars = List.of(input.split(","));
+
+        List<String> carNames = List.of(input.split(","));
+        List<Car> cars = new ArrayList<>();
+
+        for (String name : carNames) {
+            cars.add(new Car(name.trim()));
+        }
 
         System.out.println("시도할 횟수는 몇 회인가요?");
         int count = Integer.parseInt(Console.readLine());
@@ -27,5 +34,6 @@ public class Application {
         /*
         경주 게임 로직
          */
+
     }
 }
