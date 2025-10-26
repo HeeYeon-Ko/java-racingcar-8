@@ -1,16 +1,5 @@
 package racingcar;
 
-/*
-camp.nextstep.edu.missionutils에서 제공하는 Randoms 및 Console API 활용
-- Random 값 추출: pickNumberInRange()
-  ex) Randoms.pickNumberInRange(0, 9); //0에서 9까지 정수 중 한 개 반환
-- 사용자 입력 값: readLine()
-- 3항 연산자 쓰지 않기
-- 단일 역할을 수행하는 작은 함수로 분리하기 -> 다양한 API를 사용하여 데이터 조작하기
-- 배열 대신 컬렉션(List, Set, Map 등) 사용하기 -
- */
-
-
 import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,24 +14,75 @@ public class Application {
         List<Car> cars = new ArrayList<>();
 
         for (String name : carNames) {
+            validateCarName(name.trim());
             cars.add(new Car(name.trim()));
         }
 
         System.out.println("시도할 횟수는 몇 회인가요?");
-        int count = Integer.parseInt(Console.readLine());
+        int count = validateTryCount(Console.readLine());
+
+        System.out.println();
+        System.out.println("실행 결과");
 
         /*
         경주 게임 로직
-         */
+        */
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < cars.size(); j++) {
                 cars.get(j).move();
+                System.out.println(cars.get(j).getName() + " : " + "-".repeat(cars.get(j).getPosition()));
             }
+            System.out.println();
         }
 
         /*
-        실행 결과 & 최종 우승자 출력
-         */
+        최종 우승자 출력
+        */
+        int max = Integer.MIN_VALUE;
+        List<Car> winner = new ArrayList<>();
+        for (Car car : cars) {
+            if (car.getPosition() > max) {
+                max = car.getPosition();
+            }
+        }
+        System.out.print("최종 우승자 : ");
+        for (Car car : cars) {
+            if (car.getPosition() == max) {
+                winner.add(car);
+            }
+        }
 
+        if(winner.size()==1){
+            System.out.print(winner.getFirst().getName());
+        }
+        else{
+            for (int i = 0; i < winner.size() - 1; i++) {
+                System.out.print(winner.get(i).getName() + ", ");
+            }
+            System.out.print(winner.getLast().getName());
+        }
+    }
+
+    //이름 검증 함수
+    private static void validateCarName(String name) {
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("자동차 이름은 비어 있을 수 없습니다.");
+        }
+        if (name.length() > 5) {
+            throw new IllegalArgumentException("자동차 이름은 5자 이하만 가능합니다.");
+        }
+    }
+
+    //시도 횟수 검증 함수
+    private static int validateTryCount(String input) {
+        try {
+            int count = Integer.parseInt(input);
+            if (count <= 0) {
+                throw new IllegalArgumentException("시도 횟수는 1 이상의 정수여야 합니다.");
+            }
+            return count;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("시도 횟수는 숫자만 입력할 수 있습니다.");
+        }
     }
 }
