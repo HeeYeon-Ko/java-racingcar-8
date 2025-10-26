@@ -27,6 +27,16 @@ public class Application {
         /*
         경주 게임 로직
         */
+        racing(count, cars);
+
+        /*
+        최종 우승자 출력
+        */
+        printWinners(cars);
+    }
+
+    // 경주 게임을 진행하는 함수
+    private static void racing(int count, List<Car> cars) {
         for (int i = 0; i < count; i++) {
             for (int j = 0; j < cars.size(); j++) {
                 cars.get(j).move();
@@ -34,10 +44,10 @@ public class Application {
             }
             System.out.println();
         }
+    }
 
-        /*
-        최종 우승자 출력
-        */
+    //최종 우승자를 출력하는 함수
+    private static void printWinners(List<Car> cars) {
         int max = Integer.MIN_VALUE;
         List<Car> winner = new ArrayList<>();
         for (Car car : cars) {
